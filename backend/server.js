@@ -1,4 +1,5 @@
 const express = require("express");
+const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoute.js");
 require("dotenv").config();
 
@@ -14,6 +15,8 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+
+app.use(errorHandler);
 
 app.listen(
   PORT,

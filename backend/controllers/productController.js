@@ -3,28 +3,28 @@ const asyncHandler = require("express-async-handler");
 // @desc    Get all products
 // @route   GET /api/products/
 // @access  Public
-const getProducts = asynchandler(async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get all products" });
 });
 
 // @desc    Create a product
 // @route   POST /api/products/
 // @access  Private
-const createProduct = asynchandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Craete a product" });
 });
 
 // @desc    Get a product
 // @route   GET /api/products/:id
 // @access  Public
-const getProduct = asynchandler(async (req, res) => {
+const getProduct = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Get a product with id ${req.params.id}` });
 });
 
 // @desc    Update a product
 // @route   PUT /api/products/
 // @access  Private
-const updateProdcut = asynchandler(async (req, res) => {
+const updateProdcut = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ message: `Update a product with id ${req.params.id}` });
@@ -33,7 +33,7 @@ const updateProdcut = asynchandler(async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/
 // @access  Private
-const deleteProduct = asynchandler(async (req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ message: `Delete a product with id ${req.params.id}` });

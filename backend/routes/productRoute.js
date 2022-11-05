@@ -9,14 +9,7 @@ const {
 
 const router = express.Router();
 
-router.get("/", getProducts);
-
-router.post("/", createProduct);
-
-router.get("/:id", getProduct);
-
-router.put("/:id", updateProdcut);
-
-router.delete("/:id", deleteProduct);
+router.route("/").get(getProducts).post(createProduct);
+router.route("/:id").get(getProduct).put(updateProdcut).delete(deleteProduct);
 
 module.exports = router;

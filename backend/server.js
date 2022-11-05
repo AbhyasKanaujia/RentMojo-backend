@@ -5,6 +5,10 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+app.get("/api/status", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
+
 app.listen(
   PORT,
   console.log(

@@ -34,7 +34,15 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getProduct = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Get a product with id ${req.params.id}` });
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(400);
+
+    throw new Error("Product not found");
+  }
+
+  res.status(200).json(product);
 });
 
 // @desc    Update a product

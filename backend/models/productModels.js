@@ -16,12 +16,7 @@ const productSchema = mongoose.Schema(
     },
     price: {
       type: Number,
-      required: [trur, "Please add the product price"],
-    },
-    stockQuantitry: {
-      type: Number,
-      required: [trur, "Please add the product price"],
-      default: 0,
+      required: [true, "Please add the product price"],
     },
     isCustomerVisible: {
       type: Boolean,

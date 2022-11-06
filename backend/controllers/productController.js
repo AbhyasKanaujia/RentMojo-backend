@@ -37,7 +37,7 @@ const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    res.status(400);
+    res.status(404);
 
     throw new Error("Product not found");
   }
@@ -49,9 +49,21 @@ const getProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/
 // @access  Private
 const updateProdcut = asyncHandler(async (req, res) => {
-  res
-    .status(200)
-    .json({ message: `Update a product with id ${req.params.id}` });
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+
+    throw new Error("Product not found");
+  }
+
+  const updatedProdcut = await Product.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.status(200).json(updatedProdcut);
 });
 
 // @desc    Delete a product

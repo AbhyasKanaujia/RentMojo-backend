@@ -4,6 +4,7 @@ const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoute.js");
 require("dotenv").config();
 const connectDB = require("./configs/db.js");
+const path = require("path");
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,6 +20,10 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 
 app.use(errorHandler);
 

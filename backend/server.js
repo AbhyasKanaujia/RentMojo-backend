@@ -1,7 +1,7 @@
 const express = require("express");
 const colors = require("colors");
 const { errorHandler } = require("./middlewares/errorHandler.js");
-const productRoutes = require("./routes/productRoute.js");
+const productRoutes = require("./routes/productRoutes.js");
 require("dotenv").config();
 const connectDB = require("./configs/db.js");
 const path = require("path");

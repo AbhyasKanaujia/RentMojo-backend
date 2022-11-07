@@ -54,6 +54,29 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete a user
+// @route   DELETE /api/users/:id
+// @access  Private
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    res.status(404);
+
+    throw new Error("User not found");
+  }
+
+  if (user.id !== req.user.id) {
+    res.status(401);
+
+    throw new Error("Unauthorized");
+  }
+
+  const deletedUser = await user.remove();
+
+  res.status(200).json({ id: req.user.id });
+});
+
 // @desc    Authenticate user
 // @route   POST /api/users/login
 // @access  Public
@@ -94,6 +117,11 @@ const generateToken = (id) => {
 // @route   POST /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
+  if (!req.user) {
+    res.status(404);
+
+    throw new Error("User not found");
+  }
   const { _id, name, email, phone, address } = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -107,6 +135,7 @@ const getMe = asyncHandler(async (req, res) => {
 
 module.exports = {
   registerUser,
+  deleteUser,
   loginUser,
   getMe,
 };

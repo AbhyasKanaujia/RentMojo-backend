@@ -92,7 +92,7 @@ const generateToken = (id) => {
 
 // @desc    Get user data
 // @route   POST /api/users/me
-// @access  Public
+// @access  Private
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get user data" });
 });

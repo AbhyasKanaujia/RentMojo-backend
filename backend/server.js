@@ -2,6 +2,7 @@ const express = require("express");
 const colors = require("colors");
 const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
 require("dotenv").config();
 const connectDB = require("./configs/db.js");
 const path = require("path");
@@ -20,6 +21,7 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+app.user("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));

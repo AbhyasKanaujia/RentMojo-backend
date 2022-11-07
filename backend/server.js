@@ -1,5 +1,6 @@
 const express = require("express");
 const colors = require("colors");
+const cors = require("cors");
 const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
@@ -13,6 +14,8 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

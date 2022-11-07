@@ -57,7 +57,31 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Login User" });
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400);
+
+    throw new Error("Please provide all the fields");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(200);
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+    });
+  } else {
+    res.status(400);
+
+    throw new Error("Invaid credentials");
+  }
 });
 
 // @desc    Get user data

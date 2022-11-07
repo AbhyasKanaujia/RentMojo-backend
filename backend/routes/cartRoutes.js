@@ -1,19 +1,16 @@
 const express = require("express");
+const {
+  getUserCart,
+  updateUserCart,
+  clearUserCart,
+} = require("../controllers/cartController.js");
 
 const router = express.Router();
 
 router
   .route("/:userId")
-  .get((req, res) => {
-    res.status(200).json({ message: `Get cart for user ${req.params.userId}` });
-  })
-  .put((req, res) => {
-    res
-      .status(200)
-      .json({ messag: `Update cart for user ${req.params.userId}` });
-  })
-  .delete((req, res) => {
-    res.status(200).json({ message: `Clear cart for user` });
-  });
+  .get(getUserCart)
+  .put(updateUserCart)
+  .delete(clearUserCart);
 
 module.exports = router;

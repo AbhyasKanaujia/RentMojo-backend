@@ -25,7 +25,7 @@ const createProduct = asyncHandler(async (req, res) => {
     throw new Error("please specify all required fields");
   }
 
-  const product = await Product.create(req.body);
+  const product = await Product.create({ ...req.body, user: req.user.id });
 
   res.status(201).json(product);
 });
@@ -57,6 +57,12 @@ const updateProdcut = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 
+  if (!product.user.equals(req.user.id)) {
+    res.status(401);
+
+    throw new Error("Only owner can delete the product");
+  }
+
   const updatedProdcut = await Product.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -76,6 +82,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
     res.status(404);
 
     throw new Error("Product not found");
+  }
+
+  if (!product.user.equals(req.user.id)) {
+    res.status(401);
+
+    throw new Error("Only owner can delete the product");
   }
 
   product.remove();

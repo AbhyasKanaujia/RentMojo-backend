@@ -3,6 +3,7 @@ const colors = require("colors");
 const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
+const cartRoutes = require("./routes/cartRoutes.js");
 require("dotenv").config();
 const connectDB = require("./configs/db.js");
 const path = require("path");
@@ -22,6 +23,7 @@ app.get("/api/status", (req, res) => {
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/carts", cartRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));

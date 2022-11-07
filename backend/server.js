@@ -21,7 +21,7 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
-app.user("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));

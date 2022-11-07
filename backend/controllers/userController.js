@@ -94,7 +94,15 @@ const generateToken = (id) => {
 // @route   POST /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get user data" });
+  const { _id, name, email, phone, address } = await User.findById(req.user.id);
+
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+    phone,
+    address,
+  });
 });
 
 module.exports = {

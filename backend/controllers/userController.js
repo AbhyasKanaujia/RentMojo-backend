@@ -45,6 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -76,6 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -83,6 +85,10 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invaid credentials");
   }
 });
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+};
 
 // @desc    Get user data
 // @route   POST /api/users/me

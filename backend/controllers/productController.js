@@ -16,6 +16,7 @@ const getProducts = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
   if (
     !req.body.name ||
+    !req.body.image ||
     !req.body.description ||
     !req.body.category ||
     !req.body.price

@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add product name"],
     },
+    image: {
+      type: String,
+      required: [true, "Please add an image url"],
+    },
     user: {
       type: mongoose.Types.ObjectId,
       required: [true, "Please specify the product owner id"],

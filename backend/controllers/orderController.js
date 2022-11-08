@@ -118,9 +118,23 @@ const updateOrder = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:orderId
 // @access  Private
 const deleteOrder = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: `Delete an order for ${req.user.name} with order id ${req.params.id}`,
-  });
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404);
+
+    throw new Error("Order not found");
+  }
+
+  if (!order.user.equals(req.user._id)) {
+    res.status(401);
+
+    throw new Error("You are not authoried to access this resource");
+  }
+
+  order.remove();
+
+  res.status(200).json({ id: req.params.id });
 });
 
 module.exports = {

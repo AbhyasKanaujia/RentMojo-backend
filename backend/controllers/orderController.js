@@ -63,6 +63,8 @@ const createOrder = asyncHandler(async (req, res) => {
     deliveredAt: req.body.deliveredAt,
   });
 
+  console.log(`new order id: ${newOrder._id}`);
+
   res.status(201).json(newOrder);
 });
 
@@ -70,18 +72,46 @@ const createOrder = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:orderId
 // @access  Private
 const getOrder = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: `Get order for ${req.user.name} with order id ${req.params.id}`,
-  });
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404);
+
+    throw new Error("Order not found");
+  }
+
+  if (!order.user.equals(req.user._id)) {
+    res.status(401);
+
+    throw new Error("You are not authoried to access this resource");
+  }
+
+  res.status(200).json(order);
 });
 
 // @desc    Update an order
 // @route   GET /api/orders/:orderId
 // @access  Private
 const updateOrder = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: `Update an order for ${req.user.name} with order id ${req.params.id}`,
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404);
+
+    throw new Error("Order not found");
+  }
+
+  if (!order.user.equals(req.user._id)) {
+    res.status(401);
+
+    throw new Error("You are not authoried to access this resource");
+  }
+
+  const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
   });
+
+  res.status(200).json(updatedOrder);
 });
 
 // @desc    Delete an order

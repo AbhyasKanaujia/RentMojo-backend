@@ -89,4 +89,4 @@ const orderSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.module("Order", orderSchema);
+module.exports = mongoose.model("Order", orderSchema);

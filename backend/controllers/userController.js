@@ -62,6 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
+  const cart = await Cart.findById(user.cartId);
 
   if (!user) {
     res.status(404);
@@ -76,8 +77,9 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 
   const deletedUser = await user.remove();
+  const deletedCart = await cart.remove();
 
-  res.status(200).json({ id: req.user.id });
+  res.status(200).json({ id: req.user.id, cartId: deletedCart._id });
 });
 
 // @desc    Authenticate user

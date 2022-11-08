@@ -5,6 +5,7 @@ const { errorHandler } = require("./middlewares/errorHandler.js");
 const productRoutes = require("./routes/productRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const cartRoutes = require("./routes/cartRoutes.js");
+const orderRoutes = require("./routes/orderRoutes.js");
 require("dotenv").config();
 const connectDB = require("./configs/db.js");
 const path = require("path");
@@ -27,6 +28,7 @@ app.get("/api/status", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/carts", cartRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));

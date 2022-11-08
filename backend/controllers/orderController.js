@@ -1,10 +1,13 @@
 const asyncHandler = require("express-async-handler");
+const Order = require("../models/orderModel.js");
 
 // @desc    Get all orders
 // @route   GET /api/orders/
 // @access  Private
 const getOrders = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Get all orders for ${req.user.name}` });
+  const orders = await Order.find({ user: req.user._id });
+
+  res.status(200).json(orders);
 });
 
 // @desc    Create orders for user using cart

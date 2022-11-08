@@ -14,17 +14,11 @@ const getUserCart = asyncHandler(async (req, res) => {
 // @route   DELETE /api/carts/
 // @access  Private
 const clearUserCart = asyncHandler(async (req, res) => {
-  const cart = await Cart.findOne({ user: req.user._id });
+  const updatedCart = await Cart.findByIdAndUpdate(req.user.cartId, {
+    products: [],
+  });
 
-  if (!cart) {
-    const newCart = await Cart.create({ user: req.user._id });
-
-    res.status(201).json(newCart);
-  } else {
-    const updatedCart = await Cart.findOneAndUpdate({ products: [] });
-
-    res.status(200).json(updatedCart);
-  }
+  res.status(200).json(updatedCart);
 });
 
 // @desc    Add item to cart

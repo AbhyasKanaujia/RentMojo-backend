@@ -5,11 +5,11 @@ const productSchema = mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please add product name"],
-      ref: "User",
     },
     user: {
       type: mongoose.Types.ObjectId,
       required: [true, "Please specify the product owner id"],
+      ref: "User",
     },
     description: {
       type: String,

@@ -20,6 +20,12 @@ const userSchema = mongoose.Schema({
   address: {
     type: String,
   },
+  cartId: {
+    type: mongoose.Types.ObjectId,
+    default: null,
+    ref: "Cart",
+    requried: [true, "Each user must have an associated cart"],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

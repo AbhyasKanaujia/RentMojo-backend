@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel.js");
+const Cart = require("../models/cartModel.js");
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -36,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
     phone,
     address,
+    cartId: (await Cart.create({ products: [] }))._id,
   });
 
   if (user) {
@@ -45,6 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      cartId: user.cartId,
       token: generateToken(user._id),
     });
   } else {
@@ -100,6 +103,7 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      cartId: user.cartId,
       token: generateToken(user._id),
     });
   } else {

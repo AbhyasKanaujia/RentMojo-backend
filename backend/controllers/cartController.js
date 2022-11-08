@@ -119,9 +119,37 @@ const updateProductQuantity = asyncHandler(async (req, res) => {
 // @route   DELETE /api/carts/:productId
 // @access  Private
 const deleteItemFromCart = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: `Delete product for user ${req.user.name} for product id ${req.params.productId}`,
-  });
+  const cart = await Cart.findById(req.user.cartId);
+  const product = await Product.findById(req.params.productId);
+
+  if (!product) {
+    res.status(404);
+
+    throw new Error("Product not found");
+  }
+
+  const updatedProducts = cart.products.filter(
+    (product) => !product.productId.equals(req.params.productId)
+  );
+
+  if (
+    cart.products.length === 0 ||
+    cart.products.length === updatedProducts.length
+  ) {
+    res.status(404);
+
+    throw new Error("Item not found in cart");
+  }
+
+  const updatedCart = await Cart.findByIdAndUpdate(
+    req.user.cartId,
+    {
+      products: updatedProducts,
+    },
+    { new: true }
+  );
+
+  res.status(200).json(updatedCart);
 });
 
 module.exports = {

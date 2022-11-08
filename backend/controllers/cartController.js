@@ -5,15 +5,9 @@ const Cart = require("../models/cartModel.js");
 // @route   GET /api/carts/
 // @access  Private
 const getUserCart = asyncHandler(async (req, res) => {
-  const cart = await Cart.findOne({ user: req.user._id });
+  const cart = await Cart.findById(req.user.cartId);
 
-  if (!cart) {
-    const newCart = await Cart.create({ user: req.user._id });
-
-    res.status(201).json(newCart);
-  } else {
-    res.status(200).json(cart);
-  }
+  res.status(200).json(cart);
 });
 
 // @desc    Clear user cart

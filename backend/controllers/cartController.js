@@ -65,9 +65,54 @@ const addItemToCart = asyncHandler(async (req, res) => {
 // @route   PUT /api/carts/:productId
 // @access  Private
 const updateProductQuantity = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    messag: `Update product quantity for user ${req.user.name} for product id ${req.params.productId}`,
-  });
+  const cart = await Cart.findById(req.user.cartId);
+  const product = await Product.findById(req.params.productId);
+
+  if (!product) {
+    res.status(404);
+
+    throw new Error("Product not found");
+  }
+
+  if (!req.body.quantity) {
+    res.status(400);
+
+    throw new Error("Please specify the new quantity");
+  }
+
+  if (req.body.quantity <= 0) {
+    res.status(400);
+
+    throw new Error(
+      "Quantity cannot be 0 or negative. Consider removing item from cart."
+    );
+  }
+
+  const productExists = cart.products.find((product) =>
+    product.productId.equals(req.params.productId)
+  );
+
+  if (productExists) {
+    const updatedProducts = cart.products.map((product) => {
+      if (product.productId.equals(req.params.productId)) {
+        return { productId: product.productId, quantity: req.body.quantity };
+      } else return product;
+    });
+
+    const updatedCart = await Cart.findByIdAndUpdate(
+      req.user.cartId,
+      {
+        products: updatedProducts,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedCart);
+  } else {
+    res.status(404);
+
+    throw new Error("Product not found in cart");
+  }
 });
 
 // @desc    Delete item from cart

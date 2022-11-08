@@ -1,44 +1,58 @@
 const asyncHandler = require("express-async-handler");
-const Cart = require("../models/userModel.js");
+const Cart = require("../models/cartModel.js");
 
 // @desc    Get user cart
-// @route   GET /api/carts/:userId
+// @route   GET /api/carts/
 // @access  Private
 const getUserCart = asyncHandler(async (req, res) => {
-  res.status(200).json(userCart);
-});
+  const cart = await Cart.findOne({ user: req.user._id });
 
-// @desc    Update user cart
-// @route   PUT /api/carts/:userId
-// @access  Private
-const updateUserCart = asyncHandler(async (req, res) => {
-  res.status(200).json({ messag: `Update cart for user ${req.params.userId}` });
+  if (!cart) {
+    const newCart = await Cart.create({ user: req.user._id });
+
+    res.status(201).json(newCart);
+  } else {
+    res.status(200).json(cart);
+  }
 });
 
 // @desc    Clear user cart
-// @route   DELETE /api/carts/:userId
+// @route   DELETE /api/carts/
 // @access  Private
 const clearUserCart = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Clear cart for user` });
+  res.status(200).json({ message: `Clear cart for ${req.user.name}` });
 });
 
-// @desc    Clear user cart
-// @route   DELETE /api/carts/:userId
+// @desc    Add item to cart
+// @route   POST /api/carts/:productId
 // @access  Private
 const addItemToCart = asyncHandler(async (req, res) => {
-  res.status(201).json({ message: `Add item to cart` });
+  res.status(201).json({
+    message: `Add product for user ${req.user.name} for product id ${req.params.productId}`,
+  });
 });
 
-// @desc    Clear user cart
-// @route   DELETE /api/carts/:userId
+// @desc    Update product quantity
+// @route   PUT /api/carts/:productId
+// @access  Private
+const updateProductQuantity = asyncHandler(async (req, res) => {
+  res.status(200).json({
+    messag: `Update product quantity for user ${req.user.name} for product id ${req.params.productId}`,
+  });
+});
+
+// @desc    Delete item from cart
+// @route   DELETE /api/carts/:productId
 // @access  Private
 const deleteItemFromCart = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete item from cart` });
+  res.status(200).json({
+    message: `Delete product for user ${req.user.name} for product id ${req.params.productId}`,
+  });
 });
 
 module.exports = {
   getUserCart,
-  updateUserCart,
+  updateProductQuantity,
   clearUserCart,
   addItemToCart,
   deleteItemFromCart,

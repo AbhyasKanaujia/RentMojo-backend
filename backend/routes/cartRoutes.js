@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   getUserCart,
-  updateUserCart,
+  updateProductQuantity,
   clearUserCart,
   addItemToCart,
   deleteItemFromCart,
@@ -14,7 +14,7 @@ router.route("/").get(protect, getUserCart).delete(protect, clearUserCart);
 router
   .route("/:productId")
   .post(protect, addItemToCart)
-  .put(protect, updateUserCart)
+  .put(protect, updateProductQuantity)
   .delete(protect, deleteItemFromCart);
 
 module.exports = router;

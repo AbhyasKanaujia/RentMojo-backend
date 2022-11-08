@@ -5,8 +5,6 @@ const Cart = require("../models/userModel.js");
 // @route   GET /api/carts/:userId
 // @access  Private
 const getUserCart = asyncHandler(async (req, res) => {
-  const userCart = await Cart.find({ user: req.params.userId });
-
   res.status(200).json(userCart);
 });
 
@@ -24,8 +22,24 @@ const clearUserCart = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Clear cart for user` });
 });
 
+// @desc    Clear user cart
+// @route   DELETE /api/carts/:userId
+// @access  Private
+const addItemToCart = asyncHandler(async (req, res) => {
+  res.status(201).json({ message: `Add item to cart` });
+});
+
+// @desc    Clear user cart
+// @route   DELETE /api/carts/:userId
+// @access  Private
+const deleteItemFromCart = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `Delete item from cart` });
+});
+
 module.exports = {
   getUserCart,
   updateUserCart,
   clearUserCart,
+  addItemToCart,
+  deleteItemFromCart,
 };
